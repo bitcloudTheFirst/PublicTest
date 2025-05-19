@@ -1,5 +1,6 @@
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
+
 const scoreEl = document.getElementById('score');
 const startScreen = document.getElementById('start-screen');
 const startButton = document.getElementById('start-button');
@@ -22,6 +23,7 @@ function playTone(freq, duration) {
     gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + duration / 1000);
 }
+
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -53,7 +55,9 @@ function getRandomFood() {
 
 function loop() {
     requestAnimationFrame(loop);
+
     if (!running) return;
+
 
     if (++count < 5) {
         return;
@@ -91,9 +95,11 @@ function loop() {
 
         if (cell.x === food.x && cell.y === food.y) {
             snake.maxCells++;
+
             score += 10;
             scoreEl.textContent = `Score: ${score}`;
             playTone(440, 150);
+
             food = getRandomFood();
         }
 
@@ -106,10 +112,12 @@ function loop() {
                 snake.dx = scale;
                 snake.dy = 0;
                 food = getRandomFood();
+
                 running = false;
                 playTone(220, 300);
                 startButton.textContent = 'Restart Game';
                 startScreen.style.display = 'flex';
+
             }
         }
     });
@@ -132,6 +140,7 @@ document.addEventListener('keydown', e => {
     }
 });
 
+
 startButton.addEventListener('click', () => {
     startScreen.style.display = 'none';
     score = 0;
@@ -146,5 +155,6 @@ startButton.addEventListener('click', () => {
     running = true;
     playTone(660, 150);
 });
+
 
 requestAnimationFrame(loop);
